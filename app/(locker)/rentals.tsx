@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "../../src/components/PlaceholderScreen";
+import { RentalsScreen } from "../../src/components/locker/RentalsScreen";
 
-export default function RentalsScreen() {
-  return <PlaceholderScreen title="Kiralamalarım" />;
+export default function RentalsTab() {
+  return <RentalsScreen />;
 }
