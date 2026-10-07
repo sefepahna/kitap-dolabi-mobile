@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "../../src/components/PlaceholderScreen";
+import { BooksScreen } from "../../src/components/locker/BooksScreen";
 
-export default function BooksScreen() {
-  return <PlaceholderScreen title="Kitaplar" />;
+export default function BooksTab() {
+  return <BooksScreen />;
 }

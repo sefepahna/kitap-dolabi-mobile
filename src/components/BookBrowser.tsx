@@ -13,13 +13,13 @@ import { Search } from "lucide-react-native";
 import { useRouter } from "expo-router";
 
 import { categories } from "../data/mock";
+import { filterBooks } from "../lib/book-browser";
 import type { Category, LockerBook } from "../types";
 import { colors, fontFamily, fontSize, radius, spacing } from "../theme";
 import { BookCover } from "./BookCover";
 import { AppText } from "./ui/AppText";
 
 type BookBrowserProps = {
-  lockerId: string;
   books: LockerBook[];
   onlyAvailableDefault?: boolean;
   listHeader?: React.ReactNode;
@@ -31,21 +31,25 @@ export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }:
   const [category, setCategory] = useState<Category | null>(null);
   const [onlyAvailable, setOnlyAvailable] = useState(onlyAvailableDefault);
 
-  const list = useMemo(() => {
-    const normalized = query.trim().toLocaleLowerCase("tr");
-    return books
-      .filter((book) => !category || book.category === category)
-      .filter((book) => !onlyAvailable || book.available)
-      .filter(
-        (book) =>
-          !normalized ||
-          book.title.toLocaleLowerCase("tr").includes(normalized) ||
-          book.author.toLocaleLowerCase("tr").includes(normalized),
-      )
-      .sort((a, b) => Number(b.available) - Number(a.available));
-  }, [books, query, category, onlyAvailable]);
+  const list = useMemo(
+    () => filterBooks(books, query, category, onlyAvailable),
+    [books, query, category, onlyAvailable],
+  );
 
   const usedCategories = categories.filter((item) => books.some((book) => book.category === item));
+
+  const emptyMessage = useMemo(() => {
+    if (books.length === 0) {
+      return "Bu dolapta kitap bulunmuyor.";
+    }
+    if (query.trim()) {
+      return "Aramanıza uygun kitap bulunamadı.";
+    }
+    if (category || onlyAvailable) {
+      return "Seçili filtrelere uygun kitap bulunamadı.";
+    }
+    return "Aramanıza uygun kitap bulunamadı.";
+  }, [books.length, query, category, onlyAvailable]);
 
   const renderItem: ListRenderItem<LockerBook> = ({ item }) => (
     <Pressable
@@ -93,12 +97,21 @@ export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }:
             />
           </View>
 
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.categoryRow}>
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.categoryScroll}
+            contentContainerStyle={styles.categoryRow}
+          >
             {[null, ...usedCategories].map((item) => {
               const selected = category === item;
               return (
                 <Pressable key={item ?? "all"} onPress={() => setCategory(item)} style={styles.categoryTab}>
-                  <AppText variant="body" color={selected ? colors.foreground : colors.mutedForeground} style={selected ? styles.categoryActive : undefined}>
+                  <AppText
+                    variant="body"
+                    color={selected ? colors.foreground : colors.mutedForeground}
+                    style={selected ? styles.categoryActive : undefined}
+                  >
                     {item ?? "Tümü"}
                   </AppText>
                   <View style={[styles.categoryUnderline, selected && styles.categoryUnderlineActive]} />
@@ -127,7 +140,7 @@ export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }:
       }
       ListEmptyComponent={
         <AppText variant="body" muted style={styles.empty}>
-          Aramanıza uygun kitap bulunamadı.
+          {emptyMessage}
         </AppText>
       }
       ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -139,6 +152,7 @@ const styles = StyleSheet.create({
   listContent: {
     paddingHorizontal: spacing.lg,
     paddingBottom: spacing.xxl,
+    flexGrow: 1,
   },
   searchBox: {
     flexDirection: "row",
@@ -158,8 +172,14 @@ const styles = StyleSheet.create({
     color: colors.foreground,
     paddingVertical: 0,
   },
+  categoryScroll: {
+    marginHorizontal: -spacing.lg,
+  },
   categoryRow: {
+    flexDirection: "row",
     gap: spacing.lg,
+    paddingHorizontal: spacing.lg,
+    paddingRight: spacing.xxl,
     paddingVertical: spacing.md,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
