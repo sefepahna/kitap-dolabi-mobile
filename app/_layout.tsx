@@ -5,6 +5,7 @@ import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
+import { DemoStoreProvider } from "../src/lib/demo-store";
 import { appFonts } from "../src/lib/fonts";
 import { colors } from "../src/theme";
 
@@ -25,8 +26,10 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }} />
+      <DemoStoreProvider>
+        <StatusBar style="dark" />
+        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }} />
+      </DemoStoreProvider>
     </SafeAreaProvider>
   );
 }
