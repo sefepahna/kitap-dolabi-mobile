@@ -1,7 +1,11 @@
 import { Tabs } from "expo-router";
+import { BookOpen, Clock, LayoutGrid } from "lucide-react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors, fontFamily, fontSize } from "../../src/theme";
+
+const ICON_SIZE = 20;
+const ICON_STROKE = 1.6;
 
 export default function LockerTabsLayout() {
   const insets = useSafeAreaInsets();
@@ -25,12 +29,31 @@ export default function LockerTabsLayout() {
         tabBarLabelStyle: {
           fontFamily: fontFamily.sansRegular,
           fontSize: fontSize.xs,
+          marginTop: 2,
         },
       }}
     >
-      <Tabs.Screen name="index" options={{ title: "Dolap" }} />
-      <Tabs.Screen name="books" options={{ title: "Kitaplar" }} />
-      <Tabs.Screen name="rentals" options={{ title: "Kiralamalarım" }} />
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Dolap",
+          tabBarIcon: ({ color }) => <LayoutGrid color={color} size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
+        }}
+      />
+      <Tabs.Screen
+        name="books"
+        options={{
+          title: "Kitaplar",
+          tabBarIcon: ({ color }) => <BookOpen color={color} size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
+        }}
+      />
+      <Tabs.Screen
+        name="rentals"
+        options={{
+          title: "Kiralamalarım",
+          tabBarIcon: ({ color }) => <Clock color={color} size={ICON_SIZE} strokeWidth={ICON_STROKE} />,
+        }}
+      />
     </Tabs>
   );
 }

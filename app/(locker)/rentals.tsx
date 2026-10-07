@@ -1,5 +1,5 @@
-import { Phase3DesignPreview } from "../../src/components/Phase3DesignPreview";
+import { PlaceholderScreen } from "../../src/components/PlaceholderScreen";
 
 export default function RentalsScreen() {
-  return <Phase3DesignPreview tabLabel="Kiralamalarım" />;
+  return <PlaceholderScreen title="Kiralamalarım" />;
 }

@@ -1,5 +1,5 @@
-import { Phase3DesignPreview } from "../../src/components/Phase3DesignPreview";
+import { LockerHomeScreen } from "../../src/components/locker/LockerHomeScreen";
 
 export default function DolapScreen() {
-  return <Phase3DesignPreview tabLabel="Dolap" />;
+  return <LockerHomeScreen />;
 }
