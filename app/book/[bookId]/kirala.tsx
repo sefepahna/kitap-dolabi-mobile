@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "../../../src/components/PlaceholderScreen";
+import { RentalFlowScreen } from "../../../src/components/rental/RentalFlowScreen";
 
-export default function RentalFlowScreen() {
-  return <PlaceholderScreen title="Kiralama" />;
+export default function RentalFlowRoute() {
+  return <RentalFlowScreen />;
 }

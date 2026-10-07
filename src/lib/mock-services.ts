@@ -4,6 +4,8 @@ import { dueDate, rentalDays, type LockerBook } from "../data/mock";
 import type { PaymentResult, Rental } from "../types";
 import { getState, setState } from "./demo-store";
 
+export const RENTAL_UNAVAILABLE_ERROR = "Bu kitap şu anda kirada ve yeniden kiralanamaz.";
+
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const authService = {
@@ -56,6 +58,7 @@ export const rentalService = {
   createRental(book: LockerBook, lockerId: string, phone: string): Rental {
     const existing = getState().rentals.find((rental) => rental.copyId === book.copyId && rental.status === "active");
     if (existing) return existing;
+    if (!inventoryService.isAvailable(book)) throw new Error(RENTAL_UNAVAILABLE_ERROR);
 
     const now = new Date();
     const rental: Rental = {
