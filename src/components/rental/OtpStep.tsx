@@ -45,6 +45,7 @@ export function OtpStep({ phone, otp, error, busy, onChange, onSubmit, onBack }:
         autoComplete="sms-otp"
         maxLength={OTP_LENGTH}
         autoFocus
+        editable={!busy}
         accessibilityLabel="Doğrulama kodu"
       />
       {error ? (

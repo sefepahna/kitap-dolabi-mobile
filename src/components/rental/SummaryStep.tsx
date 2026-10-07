@@ -29,7 +29,9 @@ export function SummaryStep({ book, summary, error, busy, onPay, onBack }: Summa
     ["Ödeme yöntemi", summary.paymentLabel],
   ];
 
-  const footer = <Button label={`${summary.fee} TL Öde ve Kirala`} disabled={busy} onPress={onPay} />;
+  const footer = (
+    <Button label={`${summary.fee} TL Öde ve Kirala`} loading={busy} disabled={busy} onPress={onPay} />
+  );
 
   return (
     <StepLayout onBack={onBack} backDisabled={busy} footer={footer}>

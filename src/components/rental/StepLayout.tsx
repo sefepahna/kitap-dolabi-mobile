@@ -1,7 +1,7 @@
 // Shared frame for every rental step: safe area, optional back, single scroll area, pinned footer.
 import { ChevronLeft } from "lucide-react-native";
 import type { ReactNode } from "react";
-import { KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { colors, spacing } from "../../theme";
@@ -23,7 +23,10 @@ export function StepLayout({ children, footer, onBack, backDisabled = false, cen
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
-      <KeyboardAvoidingView style={styles.flex} behavior="padding">
+      <KeyboardAvoidingView
+        style={styles.flex}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+      >
         <View style={styles.header}>
           {onBack ? (
             <Pressable onPress={onBack} disabled={backDisabled} hitSlop={8} style={styles.back}>
@@ -61,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: HEADER_HEIGHT,
+    minHeight: HEADER_HEIGHT,
     marginTop: spacing.md,
     paddingHorizontal: spacing.lg,
     justifyContent: "center",

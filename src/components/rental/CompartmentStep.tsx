@@ -24,7 +24,7 @@ const SLOT_FONT_SIZE = 48;
 export function CompartmentStep({ phase, slot, slots, busy, openedHint, confirmLabel, onConfirm }: CompartmentStepProps) {
   const footer =
     phase === "opened" ? (
-      <Button label={confirmLabel} disabled={busy} onPress={onConfirm} />
+      <Button label={confirmLabel} loading={busy} disabled={busy} onPress={onConfirm} />
     ) : undefined;
 
   return (
