@@ -4,10 +4,11 @@ import { StyleSheet, View } from "react-native";
 import { formatDate } from "../../data/mock";
 import { formatDueMessage } from "../../lib/rentals-list";
 import type { ReturnSummary } from "../../lib/return-flow";
-import { colors, spacing } from "../../theme";
+import { spacing } from "../../theme";
 import type { Book } from "../../types";
 import { BookCover } from "../BookCover";
 import { StepLayout } from "../rental/StepLayout";
+import { metadataRowStyles } from "../ui/metadata-row-styles";
 import { AppText } from "../ui/AppText";
 import { Button } from "../ui/Button";
 
@@ -49,13 +50,13 @@ export function ReturnIntroStep({ book, summary, busy, onStart, onBack }: Return
         </View>
       </View>
 
-      <View style={styles.rows}>
+      <View style={[metadataRowStyles.block, styles.rows]}>
         {rows.map(([label, value], index) => (
-          <View key={label} style={[styles.row, index === rows.length - 1 && styles.rowLast]}>
-            <AppText variant="body" muted style={styles.label}>
+          <View key={label} style={[metadataRowStyles.row, index === rows.length - 1 && metadataRowStyles.rowLast]}>
+            <AppText variant="body" muted style={metadataRowStyles.label}>
               {label}
             </AppText>
-            <AppText variant="bodyMedium" style={styles.value}>
+            <AppText variant="bodyMedium" style={metadataRowStyles.value}>
               {value}
             </AppText>
           </View>
@@ -88,27 +89,6 @@ const styles = StyleSheet.create({
   },
   rows: {
     marginTop: spacing.lg,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: colors.border,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: spacing.lg,
-    paddingVertical: spacing.sm + 2,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  rowLast: {
-    borderBottomWidth: 0,
-  },
-  label: {
-    flexShrink: 0,
-  },
-  value: {
-    flex: 1,
-    textAlign: "right",
   },
   note: {
     marginTop: spacing.md,

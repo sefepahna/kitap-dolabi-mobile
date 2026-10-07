@@ -7,6 +7,7 @@ import { DEFAULT_LOCKER_ID, getLockerBook, rentalDays, returnDate } from "../../
 import { useDemoState, withStatus } from "../../lib/demo-store";
 import { colors, fontSize, radius, spacing } from "../../theme";
 import { BookCover } from "../BookCover";
+import { metadataRowStyles } from "../ui/metadata-row-styles";
 import { AppText } from "../ui/AppText";
 
 const FOOTER_MIN_HEIGHT = 72;
@@ -83,16 +84,18 @@ export function BookDetailScreen() {
           {book.description}
         </AppText>
 
-        <View style={styles.metadataBlock}>
+        <View style={[metadataRowStyles.block, styles.metadataBlock]}>
           {metadataRows.map(([label, value], index) => (
             <View
               key={label}
-              style={[styles.metadataRow, index === metadataRows.length - 1 && styles.metadataRowLast]}
+              style={[metadataRowStyles.row, index === metadataRows.length - 1 && metadataRowStyles.rowLast]}
             >
-              <AppText variant="body" muted>
+              <AppText variant="body" muted style={metadataRowStyles.label}>
                 {label}
               </AppText>
-              <AppText variant="bodyMedium">{value}</AppText>
+              <AppText variant="bodyMedium" style={metadataRowStyles.value}>
+                {value}
+              </AppText>
             </View>
           ))}
         </View>
@@ -175,20 +178,6 @@ const styles = StyleSheet.create({
   },
   metadataBlock: {
     marginTop: spacing.lg,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: colors.border,
-  },
-  metadataRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: spacing.sm + 2,
-    borderBottomWidth: 1,
-    borderBottomColor: colors.border,
-  },
-  metadataRowLast: {
-    borderBottomWidth: 0,
   },
   note: {
     marginTop: spacing.md,

@@ -1,7 +1,7 @@
 // Step 1 — Turkish mobile number (+90 5XX XXX XX XX).
-import { StyleSheet, TextInput, View } from "react-native";
+import { Keyboard, StyleSheet, TextInput, View } from "react-native";
 
-import { formatPhone, isValidPhone, PHONE_LENGTH } from "../../lib/rental-flow";
+import { formatPhone, PHONE_LENGTH } from "../../lib/rental-flow";
 import { colors, fontFamily, fontSize, radius, spacing } from "../../theme";
 import { AppText } from "../ui/AppText";
 import { Button } from "../ui/Button";
@@ -49,7 +49,8 @@ export function PhoneStep({ phone, error, busy, onChange, onSubmit, onBack }: Ph
           autoFocus
           editable={!busy}
           returnKeyType="done"
-          onSubmitEditing={() => isValidPhone(phone) && onSubmit()}
+          blurOnSubmit
+          onSubmitEditing={() => Keyboard.dismiss()}
           accessibilityLabel="Telefon numarası"
         />
       </View>

@@ -1,9 +1,10 @@
 import { useRouter } from "expo-router";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { books, formatDate, getLocker } from "../../data/mock";
 import { useDemoState } from "../../lib/demo-store";
+import { tabBarClearance } from "../../lib/tab-bar";
 import {
   formatDueMessage,
   getActiveRentalsFromState,
@@ -16,13 +17,19 @@ import { AppText } from "../ui/AppText";
 
 export function RentalsScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const state = useDemoState();
   const activeRentals = getActiveRentalsFromState(state);
   const history = getRentalHistoryFromState(state);
+  const contentBottomInset = tabBarClearance(insets.bottom) + spacing.md;
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={[styles.content, { paddingBottom: contentBottomInset }]}
+        showsVerticalScrollIndicator={false}
+        keyboardDismissMode="on-drag"
+      >
         <AppText variant="title">Kiralamalarım</AppText>
 
         <AppText variant="caption" muted style={styles.sectionLabel}>
@@ -35,12 +42,13 @@ export function RentalsScreen() {
           </AppText>
         ) : (
           <View style={styles.sectionList}>
-            {activeRentals.map((rental) => {
+            {activeRentals.map((rental, index) => {
               const book = books.find((item) => item.id === rental.bookId);
               if (!book) return null;
+              const isLast = index === activeRentals.length - 1;
 
               return (
-                <View key={rental.id} style={styles.activeRow}>
+                <View key={rental.id} style={[styles.activeRow, isLast && styles.rowLast]}>
                   <BookCover book={book} />
                   <View style={styles.rowBody}>
                     <AppText variant="heading" style={styles.rowTitle} numberOfLines={2}>
@@ -55,12 +63,14 @@ export function RentalsScreen() {
                     <AppText variant="caption" muted>
                       Son iade {formatDate(rental.dueDate)} · Kirada
                     </AppText>
-                    <AppText variant="caption" muted numberOfLines={1}>
+                    <AppText variant="caption" muted numberOfLines={2}>
                       {getLocker(rental.lockerId)?.name}
                     </AppText>
                     <Pressable
                       style={({ pressed }) => [styles.returnButton, pressed && styles.returnButtonPressed]}
                       onPress={() => router.push(getReturnRoute(rental.id))}
+                      accessibilityRole="button"
+                      accessibilityLabel={`${book.title} kitabını iade et`}
                     >
                       <AppText variant="bodyMedium">İade Et</AppText>
                     </Pressable>
@@ -71,33 +81,38 @@ export function RentalsScreen() {
           </View>
         )}
 
-        <AppText variant="caption" muted style={styles.historyLabel}>
-          Geçmiş Kiralamalar
-        </AppText>
+        {history.length > 0 ? (
+          <>
+            <AppText variant="caption" muted style={styles.historyLabel}>
+              Geçmiş Kiralamalar
+            </AppText>
 
-        <View style={styles.sectionList}>
-          {history.map((entry) => {
-            const book = books.find((item) => item.id === entry.bookId);
-            if (!book) return null;
+            <View style={styles.sectionList}>
+              {history.map((entry, index) => {
+                const book = books.find((item) => item.id === entry.bookId);
+                if (!book) return null;
+                const isLast = index === history.length - 1;
 
-            return (
-              <View key={entry.id} style={styles.historyRow}>
-                <BookCover book={book} />
-                <View style={styles.rowBody}>
-                  <AppText variant="heading" style={styles.rowTitle} numberOfLines={2}>
-                    {book.title}
-                  </AppText>
-                  <AppText variant="body" muted numberOfLines={1}>
-                    {book.author}
-                  </AppText>
-                  <AppText variant="caption" muted style={styles.historyMeta}>
-                    İade edildi · {formatDate(entry.returnDate)}
-                  </AppText>
-                </View>
-              </View>
-            );
-          })}
-        </View>
+                return (
+                  <View key={entry.id} style={[styles.historyRow, isLast && styles.rowLast]}>
+                    <BookCover book={book} />
+                    <View style={styles.rowBody}>
+                      <AppText variant="heading" style={styles.rowTitle} numberOfLines={2}>
+                        {book.title}
+                      </AppText>
+                      <AppText variant="body" muted numberOfLines={1}>
+                        {book.author}
+                      </AppText>
+                      <AppText variant="caption" muted style={styles.historyMeta}>
+                        İade edildi · {formatDate(entry.returnDate)}
+                      </AppText>
+                    </View>
+                  </View>
+                );
+              })}
+            </View>
+          </>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
@@ -111,7 +126,6 @@ const styles = StyleSheet.create({
   content: {
     paddingHorizontal: spacing.lg,
     paddingTop: spacing.lg,
-    paddingBottom: spacing.xxl,
   },
   sectionLabel: {
     marginTop: spacing.xl,
@@ -147,6 +161,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
   },
+  rowLast: {
+    borderBottomWidth: 0,
+  },
   rowBody: {
     flex: 1,
     minWidth: 0,
@@ -166,6 +183,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: spacing.lg,
     paddingVertical: spacing.sm,
+    minHeight: 44,
+    justifyContent: "center",
   },
   returnButtonPressed: {
     opacity: 0.85,

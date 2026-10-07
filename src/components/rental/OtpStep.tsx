@@ -1,5 +1,5 @@
 // Step 2 — 6-digit demo OTP, verified through authService.
-import { StyleSheet, TextInput } from "react-native";
+import { Keyboard, StyleSheet, TextInput } from "react-native";
 
 import { formatPhone, OTP_LENGTH } from "../../lib/rental-flow";
 import { colors, fontFamily, fontSize, radius, spacing } from "../../theme";
@@ -46,6 +46,11 @@ export function OtpStep({ phone, otp, error, busy, onChange, onSubmit, onBack }:
         maxLength={OTP_LENGTH}
         autoFocus
         editable={!busy}
+        returnKeyType="done"
+        blurOnSubmit
+        onSubmitEditing={() => {
+          if (!busy) Keyboard.dismiss();
+        }}
         accessibilityLabel="Doğrulama kodu"
       />
       {error ? (

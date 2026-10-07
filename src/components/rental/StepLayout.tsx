@@ -12,13 +12,23 @@ type StepLayoutProps = {
   footer?: ReactNode;
   onBack?: () => void;
   backDisabled?: boolean;
+  /** Vertically centers step content (completion / notice screens). */
   centered?: boolean;
+  /** Centers status + compartment groups with slightly lower optical balance. */
+  balanceContent?: boolean;
 };
 
 const BACK_ICON_SIZE = 16;
 const HEADER_HEIGHT = 24;
 
-export function StepLayout({ children, footer, onBack, backDisabled = false, centered = false }: StepLayoutProps) {
+export function StepLayout({
+  children,
+  footer,
+  onBack,
+  backDisabled = false,
+  centered = false,
+  balanceContent = false,
+}: StepLayoutProps) {
   const insets = useSafeAreaInsets();
 
   return (
@@ -29,7 +39,15 @@ export function StepLayout({ children, footer, onBack, backDisabled = false, cen
       >
         <View style={styles.header}>
           {onBack ? (
-            <Pressable onPress={onBack} disabled={backDisabled} hitSlop={8} style={styles.back}>
+            <Pressable
+              onPress={onBack}
+              disabled={backDisabled}
+              hitSlop={8}
+              style={styles.back}
+              accessibilityRole="button"
+              accessibilityLabel="Geri"
+              accessibilityState={{ disabled: backDisabled }}
+            >
               <ChevronLeft color={colors.mutedForeground} size={BACK_ICON_SIZE} strokeWidth={1.6} />
               <AppText variant="body" muted>
                 Geri
@@ -40,7 +58,11 @@ export function StepLayout({ children, footer, onBack, backDisabled = false, cen
 
         <ScrollView
           style={styles.flex}
-          contentContainerStyle={[styles.content, centered && styles.centered]}
+          contentContainerStyle={[
+            styles.content,
+            centered && styles.centered,
+            balanceContent && styles.balanceContent,
+          ]}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
@@ -83,7 +105,14 @@ const styles = StyleSheet.create({
   centered: {
     justifyContent: "center",
     alignItems: "center",
-    paddingTop: 0,
+    paddingTop: spacing.lg,
+    paddingBottom: spacing.xxl,
+  },
+  balanceContent: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingTop: spacing.xxl,
+    paddingBottom: spacing.xl,
   },
   footer: {
     paddingHorizontal: spacing.lg,

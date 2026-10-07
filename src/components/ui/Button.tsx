@@ -9,12 +9,22 @@ type ButtonProps = Omit<PressableProps, "children"> & {
   fullWidth?: boolean;
 };
 
-export function Button({ label, loading = false, disabled, fullWidth = true, style, ...props }: ButtonProps) {
+export function Button({
+  label,
+  loading = false,
+  disabled,
+  fullWidth = true,
+  style,
+  accessibilityLabel,
+  ...props
+}: ButtonProps) {
   const isDisabled = disabled || loading;
 
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? label}
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
       disabled={isDisabled}
       style={({ pressed }) => [
         styles.base,

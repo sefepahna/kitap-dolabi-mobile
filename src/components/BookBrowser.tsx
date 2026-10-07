@@ -11,9 +11,11 @@ import {
 } from "react-native";
 import { Search } from "lucide-react-native";
 import { useRouter } from "expo-router";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { categories } from "../data/mock";
 import { filterBooks } from "../lib/book-browser";
+import { tabBarClearance } from "../lib/tab-bar";
 import type { Category, LockerBook } from "../types";
 import { colors, fontFamily, fontSize, radius, spacing } from "../theme";
 import { BookCover } from "./BookCover";
@@ -27,6 +29,8 @@ type BookBrowserProps = {
 
 export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }: BookBrowserProps) {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const listBottomInset = tabBarClearance(insets.bottom) + spacing.md;
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<Category | null>(null);
   const [onlyAvailable, setOnlyAvailable] = useState(onlyAvailableDefault);
@@ -55,6 +59,8 @@ export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }:
     <Pressable
       style={({ pressed }) => [styles.row, !item.available && styles.rowUnavailable, pressed && styles.rowPressed]}
       onPress={() => router.push({ pathname: "/book/[bookId]", params: { bookId: item.id } })}
+      accessibilityRole="button"
+      accessibilityLabel={`${item.title}, ${item.author}`}
     >
       <BookCover book={item} />
       <View style={styles.rowBody}>
@@ -79,8 +85,9 @@ export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }:
       data={list}
       keyExtractor={(item) => item.id}
       renderItem={renderItem}
-      contentContainerStyle={styles.listContent}
+      contentContainerStyle={[styles.listContent, { paddingBottom: listBottomInset }]}
       keyboardShouldPersistTaps="handled"
+      keyboardDismissMode="on-drag"
       ListHeaderComponent={
         <View>
           {listHeader}
@@ -106,7 +113,14 @@ export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }:
             {[null, ...usedCategories].map((item) => {
               const selected = category === item;
               return (
-                <Pressable key={item ?? "all"} onPress={() => setCategory(item)} style={styles.categoryTab}>
+                <Pressable
+                  key={item ?? "all"}
+                  onPress={() => setCategory(item)}
+                  style={styles.categoryTab}
+                  accessibilityRole="button"
+                  accessibilityLabel={item ?? "Tüm kategoriler"}
+                  accessibilityState={{ selected }}
+                >
                   <AppText
                     variant="body"
                     color={selected ? colors.foreground : colors.mutedForeground}
@@ -130,6 +144,7 @@ export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }:
                 onValueChange={setOnlyAvailable}
                 trackColor={{ false: colors.border, true: colors.primary }}
                 thumbColor={colors.background}
+                accessibilityLabel="Sadece müsait olanlar"
               />
               <AppText variant="caption" muted>
                 Sadece müsait olanlar
@@ -151,7 +166,6 @@ export function BookBrowser({ books, onlyAvailableDefault = false, listHeader }:
 const styles = StyleSheet.create({
   listContent: {
     paddingHorizontal: spacing.lg,
-    paddingBottom: spacing.xxl,
     flexGrow: 1,
   },
   searchBox: {

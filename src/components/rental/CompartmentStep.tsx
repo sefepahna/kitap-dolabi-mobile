@@ -28,12 +28,12 @@ export function CompartmentStep({ phase, slot, slots, busy, openedHint, confirmL
     ) : undefined;
 
   return (
-    <StepLayout footer={footer}>
-      <View style={styles.body}>
+    <StepLayout footer={footer} balanceContent>
+      <View style={styles.group}>
         <CompartmentGrid slots={slots} activeSlot={slot} open={phase === "opened"} />
 
         {phase === "opened" ? (
-          <>
+          <View style={styles.statusBlock}>
             <View style={styles.opened} accessibilityRole="header">
               <AppText variant="caption" muted style={styles.eyebrow}>
                 Bölme
@@ -46,25 +46,25 @@ export function CompartmentStep({ phase, slot, slots, busy, openedHint, confirmL
             <AppText variant="body" muted style={styles.hint}>
               {openedHint}
             </AppText>
-          </>
+          </View>
         ) : null}
 
         {phase === "verifying" ? (
-          <>
+          <View style={styles.statusBlock}>
             <ActivityIndicator color={colors.mutedForeground} style={styles.indicator} />
             <AppText variant="title" style={styles.heading}>
               Kitap doğrulanıyor
             </AppText>
-          </>
+          </View>
         ) : null}
 
         {phase === "verified" ? (
-          <>
+          <View style={styles.statusBlock}>
             <Check color={colors.success} size={CHECK_SIZE} style={styles.indicator} />
             <AppText variant="title" style={styles.heading}>
               RFID doğrulandı
             </AppText>
-          </>
+          </View>
         ) : null}
       </View>
     </StepLayout>
@@ -72,13 +72,16 @@ export function CompartmentStep({ phase, slot, slots, busy, openedHint, confirmL
 }
 
 const styles = StyleSheet.create({
-  body: {
-    flex: 1,
+  group: {
+    width: "100%",
     alignItems: "center",
-    paddingTop: spacing.xl,
+  },
+  statusBlock: {
+    width: "100%",
+    alignItems: "center",
+    marginTop: spacing.lg,
   },
   opened: {
-    marginTop: spacing.xxl,
     alignItems: "center",
   },
   eyebrow: {
@@ -97,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: fontSize.md,
   },
   indicator: {
-    marginTop: spacing.xl,
+    marginTop: spacing.xs,
   },
   heading: {
     marginTop: spacing.md,

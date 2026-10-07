@@ -16,7 +16,7 @@ const CHECK_SIZE = 32;
 
 export function StatusStep({ title, text, done = false }: StatusStepProps) {
   return (
-    <StepLayout centered>
+    <StepLayout balanceContent>
       {done ? (
         <Check color={colors.success} size={CHECK_SIZE} />
       ) : (
