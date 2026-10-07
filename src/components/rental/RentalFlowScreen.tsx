@@ -94,7 +94,9 @@ export function RentalFlowScreen() {
             slot={book.slot}
             slots={getLockerSlots(DEFAULT_LOCKER_ID)}
             busy={busy}
-            onBookTaken={rental.confirmBookTaken}
+            openedHint="Kitabını al ve kapağı kapat."
+            confirmLabel="Kitabı aldım, kapağı kapattım"
+            onConfirm={rental.confirmBookTaken}
           />
         );
       case "done":

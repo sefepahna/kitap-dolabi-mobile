@@ -1,10 +1,12 @@
 // Mock service boundaries. Swap these for real integrations later.
 
 import { dueDate, rentalDays, type LockerBook } from "../data/mock";
-import type { PaymentResult, Rental } from "../types";
+import type { PaymentResult, Rental, ReturnResult } from "../types";
 import { getState, setState } from "./demo-store";
 
 export const RENTAL_UNAVAILABLE_ERROR = "Bu kitap şu anda kirada ve yeniden kiralanamaz.";
+
+let rentalSequence = 0;
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -54,7 +56,7 @@ export const inventoryService = {
 };
 
 export const rentalService = {
-  returnRental: (id: string) => returnService.returnRental(id),
+  returnRental: (id: string, lockerId: string) => returnService.returnRental(id, lockerId),
   createRental(book: LockerBook, lockerId: string, phone: string): Rental {
     const existing = getState().rentals.find((rental) => rental.copyId === book.copyId && rental.status === "active");
     if (existing) return existing;
@@ -62,7 +64,7 @@ export const rentalService = {
 
     const now = new Date();
     const rental: Rental = {
-      id: `r-${now.getTime()}`,
+      id: `r-${now.getTime()}-${++rentalSequence}`,
       copyId: book.copyId,
       bookId: book.id,
       lockerId,
@@ -85,17 +87,19 @@ export const returnService = {
   canReturnAtLocker(rental: Rental, lockerId: string) {
     return rental.lockerId === lockerId;
   },
-  returnRental(rentalId: string, lockerId?: string) {
+  /** Authoritative return: validates rental state and locker identity, then updates the shared store. */
+  returnRental(rentalId: string, lockerId: string): ReturnResult {
     const rental = getState().rentals.find((item) => item.id === rentalId);
-    if (!rental || rental.status !== "active") return;
-    if (lockerId !== undefined && !returnService.canReturnAtLocker(rental, lockerId)) return;
+    if (!rental) return { ok: false, reason: "not_found" };
+    if (rental.status !== "active") return { ok: false, reason: "already_returned" };
+    if (!returnService.canReturnAtLocker(rental, lockerId)) return { ok: false, reason: "wrong_locker" };
 
+    const returned: Rental = { ...rental, status: "returned", returnDate: new Date().toISOString() };
     setState((state) => ({
       ...state,
-      rentals: state.rentals.map((item) =>
-        item.id === rentalId ? { ...item, status: "returned", returnDate: new Date().toISOString() } : item,
-      ),
+      rentals: state.rentals.map((item) => (item.id === rentalId ? returned : item)),
     }));
     inventoryService.updateBookCopyStatus(rental.copyId, true);
+    return { ok: true, rental: returned };
   },
 };

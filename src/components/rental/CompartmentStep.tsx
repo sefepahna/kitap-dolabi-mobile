@@ -13,16 +13,18 @@ type CompartmentStepProps = {
   slot: string;
   slots: string[];
   busy: boolean;
-  onBookTaken: () => void;
+  openedHint: string;
+  confirmLabel: string;
+  onConfirm: () => void;
 };
 
 const CHECK_SIZE = 24;
 const SLOT_FONT_SIZE = 48;
 
-export function CompartmentStep({ phase, slot, slots, busy, onBookTaken }: CompartmentStepProps) {
+export function CompartmentStep({ phase, slot, slots, busy, openedHint, confirmLabel, onConfirm }: CompartmentStepProps) {
   const footer =
     phase === "opened" ? (
-      <Button label="Kitabı aldım, kapağı kapattım" disabled={busy} onPress={onBookTaken} />
+      <Button label={confirmLabel} disabled={busy} onPress={onConfirm} />
     ) : undefined;
 
   return (
@@ -42,7 +44,7 @@ export function CompartmentStep({ phase, slot, slots, busy, onBookTaken }: Compa
               <AppText variant="heading">açıldı</AppText>
             </View>
             <AppText variant="body" muted style={styles.hint}>
-              Kitabını al ve kapağı kapat.
+              {openedHint}
             </AppText>
           </>
         ) : null}

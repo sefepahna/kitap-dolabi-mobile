@@ -1,4 +1,5 @@
 // Centered progress state (paying / preparing). Shows a spinner, title and optional text.
+import { Check } from "lucide-react-native";
 import { ActivityIndicator, StyleSheet } from "react-native";
 
 import { colors, spacing } from "../../theme";
@@ -8,12 +9,19 @@ import { StepLayout } from "./StepLayout";
 type StatusStepProps = {
   title: string;
   text?: string;
+  done?: boolean;
 };
 
-export function StatusStep({ title, text }: StatusStepProps) {
+const CHECK_SIZE = 32;
+
+export function StatusStep({ title, text, done = false }: StatusStepProps) {
   return (
     <StepLayout centered>
-      <ActivityIndicator color={colors.mutedForeground} size="large" />
+      {done ? (
+        <Check color={colors.success} size={CHECK_SIZE} />
+      ) : (
+        <ActivityIndicator color={colors.mutedForeground} size="large" />
+      )}
       <AppText variant="title" style={styles.title}>
         {title}
       </AppText>

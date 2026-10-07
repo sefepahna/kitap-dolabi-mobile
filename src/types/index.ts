@@ -62,3 +62,7 @@ export interface MockHistoryEntry {
 export type PaymentResult = { ok: true };
 
 export type OpenCompartmentResult = { slot: string };
+
+export type ReturnFailureReason = "not_found" | "already_returned" | "wrong_locker";
+
+export type ReturnResult = { ok: true; rental: Rental } | { ok: false; reason: ReturnFailureReason };

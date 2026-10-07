@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "../../src/components/PlaceholderScreen";
+import { ReturnFlowScreen } from "../../src/components/return/ReturnFlowScreen";
 
-export default function ReturnFlowScreen() {
-  return <PlaceholderScreen title="İade" />;
+export default function ReturnFlowRoute() {
+  return <ReturnFlowScreen />;
 }

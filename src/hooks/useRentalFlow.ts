@@ -6,6 +6,8 @@ import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { BackHandler } from "react-native";
 
 import { DEFAULT_LOCKER_ID } from "../data/mock";
+import { useFlowExit } from "./useFlowExit";
+import { delay } from "../lib/delay";
 import { getActiveRentals, useDemoState } from "../lib/demo-store";
 import { authService, lockerService, paymentService, rentalService } from "../lib/mock-services";
 import {
@@ -25,8 +27,6 @@ const RENTALS_HREF: Href = "/(locker)/rentals";
 const BOOKS_HREF: Href = "/(locker)/books";
 const LOCKER_HREF: Href = "/(locker)";
 const RFID_FAILURE_ERROR = "Kitap doğrulanamadı. Lütfen görevliye başvur.";
-
-const delay = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 export function useRentalFlow() {
   const router = useRouter();
@@ -70,13 +70,7 @@ export function useRentalFlow() {
     }
   }, []);
 
-  const exitTo = useCallback(
-    (href: Href) => {
-      if (router.canDismiss()) router.dismissAll();
-      router.replace(href);
-    },
-    [router],
-  );
+  const exitTo = useFlowExit();
 
   const changePhone = (value: string) => {
     if (!lockRef.current) dispatch({ type: "phoneChanged", value });
