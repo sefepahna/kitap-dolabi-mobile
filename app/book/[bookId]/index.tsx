@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "../../../src/components/PlaceholderScreen";
+import { BookDetailScreen } from "../../../src/components/book/BookDetailScreen";
 
-export default function BookDetailScreen() {
-  return <PlaceholderScreen title="Kitap Detayı" />;
+export default function BookDetailRoute() {
+  return <BookDetailScreen />;
 }
