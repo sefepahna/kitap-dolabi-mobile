@@ -1,5 +1,5 @@
-import { PlaceholderScreen } from "../../src/components/PlaceholderScreen";
+import { Phase3DesignPreview } from "../../src/components/Phase3DesignPreview";
 
 export default function BooksScreen() {
-  return <PlaceholderScreen title="Kitaplar" />;
+  return <Phase3DesignPreview tabLabel="Kitaplar" />;
 }
