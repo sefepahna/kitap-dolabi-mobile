@@ -1,9 +1,10 @@
 // Step 3 — rental summary built from domain data (no card entry, simulated payment method).
+import { Info } from "lucide-react-native";
 import { StyleSheet, View } from "react-native";
 
 import { formatDate } from "../../data/mock";
 import type { RentalSummary } from "../../lib/rental-flow";
-import { colors, spacing } from "../../theme";
+import { colors, radius, spacing } from "../../theme";
 import type { LockerBook } from "../../types";
 import { BookCover } from "../BookCover";
 import { metadataRowStyles } from "../ui/metadata-row-styles";
@@ -63,6 +64,17 @@ export function SummaryStep({ book, summary, error, busy, onPay, onBack }: Summa
         ))}
       </View>
 
+      <View style={styles.disclosure} accessibilityRole="text">
+        <Info color={colors.mutedForeground} size={16} strokeWidth={1.6} style={styles.disclosureIcon} />
+        <View style={styles.disclosureText}>
+          <AppText variant="bodyMedium">Gecikmeli İade Bilgilendirmesi</AppText>
+          <AppText variant="caption" muted>
+            Kitabın son iade tarihinden sonra teslim edilmesi durumunda, gecikilen her gün için kitabın satış
+            fiyatı üzerinden belirlenen günlük oranda gecikme bedeli hesaplanır.
+          </AppText>
+        </View>
+      </View>
+
       <AppText variant="caption" muted style={styles.note}>
         Kitap yalnızca aldığın dolaba iade edilebilir.
       </AppText>
@@ -88,6 +100,23 @@ const styles = StyleSheet.create({
   },
   rows: {
     marginTop: spacing.lg,
+  },
+  disclosure: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: spacing.sm,
+    marginTop: spacing.lg,
+    padding: spacing.md,
+    backgroundColor: colors.accent,
+    borderRadius: radius.lg,
+  },
+  disclosureIcon: {
+    marginTop: 2,
+  },
+  disclosureText: {
+    flex: 1,
+    minWidth: 0,
+    gap: spacing.xs,
   },
   note: {
     marginTop: spacing.md,
