@@ -1,0 +1,20 @@
+# İş Kültür kapak kaynakları
+
+Demo için onaylı Türkiye İş Bankası Kültür Yayınları ön kapakları. Dosyalar `assets/book-covers/` altında, çalışma anında ağ gerekmez.
+
+Sayfa sayısı, ISBN ve kapak adresi 8 Ekim 2026 tarihinde resmi ürün sayfasından okundu. Katalogdaki yazar adı onaylı kısa biçimdir; resmi sayfadaki tam ad parantezde belirtilir. Kira ücreti yayınevi satış fiyatı değildir.
+
+| Kitap ID | Başlık | Yazar | ISBN | Ürün sayfası | Kapak URL | Dosya | Doğrulama |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `kurk-mantolu-madonna` | Kürk Mantolu Madonna | Sabahattin Ali | 9786257999267 | https://www.iskultur.com.tr/kurk-mantolu-madonna.aspx | https://www.iskultur.com.tr/dosyalar/2020/01/kurk-mantolu-madonna-4.jpg | `kurk-mantolu-madonna.jpg` | Doğrulandı. 176 sayfa, 2020. Kapak Türk Edebiyatı Klasikleri 29. |
+| `devlet` | Devlet | Platon | 9789754587173 | https://www.iskultur.com.tr/devlet.aspx | https://www.iskultur.com.tr/dosyalar/2006/04/devlet-6.jpg | `devlet.jpg` | Doğrulandı. 392 sayfa, 2006. Hasan Âli Yücel Klasikler. |
+| `donusum` | Dönüşüm | Franz Kafka | 9786053609322 | https://www.iskultur.com.tr/donusum-2.aspx | https://www.iskultur.com.tr/dosyalar/2013/09/donusum-9.jpg | `donusum.jpg` | Doğrulandı. 80 sayfa, 2013. Modern Klasikler 26. |
+| `insan-neyle-yasar` | İnsan Neyle Yaşar? | Lev Tolstoy (sayfada Lev Nikolayeviç Tolstoy) | 9786053607038 | https://www.iskultur.com.tr/insan-neyle-yasar-2.aspx | https://www.iskultur.com.tr/dosyalar/2012/09/insan-neyle-yasar-4.jpg | `insan-neyle-yasar.jpg` | Doğrulandı. 96 sayfa, 2012. |
+| `beyaz-geceler` | Beyaz Geceler | Fyodor Dostoyevski (sayfada Fyodor Mihayloviç Dostoyevski) | 9786053321392 | https://www.iskultur.com.tr/beyaz-geceler.aspx | https://www.iskultur.com.tr/dosyalar/2014/06/beyaz-geceler-7.jpg | `beyaz-geceler.jpg` | Doğrulandı. 208 sayfa, 2014. Aynı ciltte 1848 tarihli kısa anlatılar var. |
+| `yeraltindan-notlar` | Yeraltından Notlar | Fyodor Dostoyevski (sayfada Fyodor Mihayloviç Dostoyevski) | 9789944884013 | https://www.iskultur.com.tr/yeraltindan-notlar.aspx | https://www.iskultur.com.tr/dosyalar/2008/07/yeraltindan-notlar-4.jpg | `yeraltindan-notlar.jpg` | Doğrulandı. 144 sayfa, 2008. |
+| `gurur-ve-onyargi` | Gurur ve Önyargı | Jane Austen | 9789754587029 | https://www.iskultur.com.tr/gurur-ve-onyargi.aspx | https://www.iskultur.com.tr/dosyalar/2006/04/gurur-ve-onyargi-3.jpg | `gurur-ve-onyargi.jpg` | Doğrulandı. 404 sayfa, 2006. |
+| `dorian-grayin-portresi` | Dorian Gray'in Portresi | Oscar Wilde | 9786052956267 | https://www.iskultur.com.tr/dorian-grayin-portresi.aspx | https://www.iskultur.com.tr/dosyalar/2018/07/dorian-gray.jpg | `dorian-grayin-portresi.jpg` | Doğrulandı. 264 sayfa, 2018. Resmi tanıtım metni yazar biyografisi; olay özeti yok. |
+| `savas-sanati` | Savaş Sanatı | Sun Zi (sayfada Sun Zi (Sun Tzu)) | 9786053322696 | https://www.iskultur.com.tr/savas-sanati.aspx | https://www.iskultur.com.tr/dosyalar/2014/10/savas-sanati-6.jpg | `savas-sanati.jpg` | Doğrulandı. 64 sayfa, 2014. |
+| `sokratesin-savunmasi` | Sokrates'in Savunması | Platon | 9786053607007 | https://www.iskultur.com.tr/sokratesin-savunmasi.aspx | https://www.iskultur.com.tr/dosyalar/2013/12/180014_frontpage.jpg | `sokratesin-savunmasi.jpg` | Doğrulandı. Sayfa başlığı “Ciltli”. 222 sayfa, yıl 2012. Tanıtım Phaidon’u da anıyor. Kapak 700×1176. |
+| `suc-ve-ceza` | Suç ve Ceza | Fyodor Dostoyevski (sayfada Fyodor Mihayloviç Dostoyevski) | 9789754589030 | https://www.iskultur.com.tr/suc-ve-ceza.aspx | https://www.iskultur.com.tr/dosyalar/2006/11/sucveceza.jpg | `suc-ve-ceza.jpg` | Doğrulandı, çözünürlük sınırlı. Sayfa başlığı “Ciltli”. 704 sayfa, 2006. Resmi kapak dosyası 238×405. Karton kapak ISBN 9789754589023 kullanılmadı. |
+| `kuyucakli-yusuf` | Kuyucaklı Yusuf | Sabahattin Ali | 9786257999281 | https://www.iskultur.com.tr/kuyucakli-yusuf.aspx | https://www.iskultur.com.tr/dosyalar/2020/01/kuyucakli-yusuf-1.jpg | `kuyucakli-yusuf.jpg` | Doğrulandı. 232 sayfa, 2020. Kapak Türk Edebiyatı Klasikleri 32. |

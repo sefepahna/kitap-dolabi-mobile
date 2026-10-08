@@ -20,7 +20,7 @@ import {
 } from "../rental-flow";
 
 const AVAILABLE_BOOK_ID = "kurk-mantolu-madonna";
-const SEEDED_RENTED_BOOK_ID = "tutunamayanlar";
+const SEEDED_RENTED_BOOK_ID = "donusum";
 const PHONE = "5321234567";
 
 const getBook = (id: string) => getLockerBook(DEFAULT_LOCKER_ID, id)!;

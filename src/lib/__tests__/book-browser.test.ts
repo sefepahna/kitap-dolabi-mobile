@@ -13,8 +13,7 @@ describe("BookBrowser filters", () => {
 
   it("matches author search", () => {
     const result = filterBooks(books, "platon", null, false);
-    expect(result).toHaveLength(1);
-    expect(result[0]?.id).toBe("devlet");
+    expect(result.map((book) => book.id).sort()).toEqual(["devlet", "sokratesin-savunmasi"]);
   });
 
   it("filters by category", () => {
