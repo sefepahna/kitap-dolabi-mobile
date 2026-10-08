@@ -1,14 +1,18 @@
-import { StyleSheet, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Pressable, StyleSheet, View } from "react-native";
 import { MapPin } from "lucide-react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { DEFAULT_LOCKER_ID, getLocker } from "../../data/mock";
 import { useLockerBooks } from "../../lib/demo-store";
+import { useEntryState } from "../../lib/entry-state-context";
 import { colors, spacing } from "../../theme";
 import { BookBrowser } from "../BookBrowser";
 import { AppText } from "../ui/AppText";
 
 export function LockerHomeScreen() {
+  const router = useRouter();
+  const { resetEntryState } = useEntryState();
   const lockerId = DEFAULT_LOCKER_ID;
   const locker = getLocker(lockerId);
   const books = useLockerBooks(lockerId);
@@ -49,6 +53,35 @@ export function LockerHomeScreen() {
                 {" "}
                 / {books.length} müsait
               </AppText>
+            </View>
+            <View style={styles.linkRow}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push("/onboarding?replay=1")}
+                onLongPress={
+                  __DEV__
+                    ? async () => {
+                        await resetEntryState();
+                        router.replace("/onboarding");
+                      }
+                    : undefined
+                }
+                delayLongPress={700}
+                style={({ pressed }) => [styles.linkButton, pressed && styles.linkPressed]}
+              >
+                <AppText variant="body" muted style={styles.linkText}>
+                  Nasıl çalışır?
+                </AppText>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push("/qr")}
+                style={({ pressed }) => [styles.linkButton, pressed && styles.linkPressed]}
+              >
+                <AppText variant="body" muted style={styles.linkText}>
+                  Dolabı yeniden tara
+                </AppText>
+              </Pressable>
             </View>
           </View>
         }
@@ -94,5 +127,20 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderBottomWidth: 1,
     borderColor: colors.border,
+  },
+  linkRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: spacing.lg,
+    marginTop: spacing.md,
+  },
+  linkButton: {
+    paddingVertical: spacing.xs,
+  },
+  linkPressed: {
+    opacity: 0.7,
+  },
+  linkText: {
+    textDecorationLine: "underline",
   },
 });

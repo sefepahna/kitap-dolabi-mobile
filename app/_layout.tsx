@@ -6,6 +6,8 @@ import { useEffect } from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 
 import { DemoStoreProvider } from "../src/lib/demo-store";
+import { EntryNavigationGuard } from "../src/lib/entry-navigation-guard";
+import { EntryStateProvider } from "../src/lib/entry-state-context";
 import { appFonts } from "../src/lib/fonts";
 import { colors } from "../src/theme";
 
@@ -26,10 +28,13 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
-      <DemoStoreProvider>
-        <StatusBar style="dark" />
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }} />
-      </DemoStoreProvider>
+      <EntryStateProvider>
+        <DemoStoreProvider>
+          <EntryNavigationGuard />
+          <StatusBar style="dark" />
+          <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.background } }} />
+        </DemoStoreProvider>
+      </EntryStateProvider>
     </SafeAreaProvider>
   );
 }
